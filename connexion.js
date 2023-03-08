@@ -2,16 +2,26 @@ btnSendConnect = document.querySelector(".btn.primary");
 
 const requestHTTP = () => {
     let id = document.querySelector(".inputId").value;
+    let password = document.querySelector(".passwordInput").value;
 
-    fetch('createSession.php', {
+    const formData = new FormData();
+    
+    formData.append('id', id);
+    formData.append('password', password);
+
+    fetch('connexion.php', {
         method: 'POST',
         headers: {"content-type": "application/x-www-form-urlencoded"
     },
-    body: "id=" + encodeURIComponent(id)
+    body: new URLSearchParams(formData)
     })
     .then(response => response.text())
     .then(data => {
-        console.log(data);
+        if (data == 1){
+            window.location.href = "index.html";
+        }else{
+            console.log(data);
+        }
     })
     .catch(error => {
         console.error(error);
